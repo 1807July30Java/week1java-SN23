@@ -1,8 +1,11 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EvaluationService {
 
@@ -31,7 +34,22 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String acronym = new String();
+		String[] words = phrase.split(" ");
+		for(int i=0; i<words.length;i++) {
+			if(words[i].contains("-")) {
+				String[] compoundWord = words[i].split("-");
+				System.out.println(Arrays.toString(compoundWord));
+				for(int j=0; j<compoundWord.length;j++) {
+					acronym+=(compoundWord[j].substring(0, 1));
+				}
+				System.out.println(Arrays.toString(words));
+			}else {
+				acronym+=(words[i].substring(0,1));
+			}
+		}
+		
+		return acronym.toUpperCase();
 	}
 
 	/**
@@ -85,20 +103,33 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			if((getSideOne() == getSideTwo()) && (getSideOne() == getSideThree())) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
-			return false;
-		}
+			if((getSideOne() == getSideTwo()) || (getSideOne() == getSideThree()) || getSideTwo() == getSideThree()) {
+				return true;
+			}else
+				return false;
+			}
+		
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if(getSideOne() != getSideTwo() && getSideTwo()!= getSideThree() && getSideOne() != getSideThree()) {
+				return true;
+			}else {
+				return false;
+			}
 		}
+}
 
-	}
+	
 
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
@@ -117,7 +148,49 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int score=0;
+		
+		
+		String[] letters = string.toUpperCase().split("");
+		
+		for(String letter: letters) {
+			if(letter.equals("A")|| letter.equals("E") || letter.equals("I") 
+					|| letter.equals("O") || letter.equals("U")|| letter.equals("L")||
+					letter.equals("N") || letter.equals("R") || letter.equals("S")||
+					letter.equals("T")) {
+				
+				score++;
+			}
+			
+			else if(letter.equals("D") || letter.equals("G")) {
+				score += 2;
+			}
+			
+			else if(letter.equals("B")|| letter.equals("C") || letter.equals("M") 
+					|| letter.equals("P")) {
+				score+=3;
+			}
+			else if(letter.equals("F")|| letter.equals("H") || letter.equals("V") 
+					|| letter.equals("W") || letter.equals("Y")) {
+				score+=4;
+			}
+			
+			else if(letter.equals("K")) {
+				score+=5;
+			}
+			
+			else if(letter.equals("J")|| letter.equals("X")) {
+				score+=8;
+			}
+			
+			else if(letter.equals("Q")||letter.equals("Z")) {
+				score+=10;
+			}
+			
+			
+		}
+		
+		return score;
 	}
 
 	/**
@@ -153,7 +226,15 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String cleanPhoneNumber = string;
+		cleanPhoneNumber = cleanPhoneNumber.replaceAll("\\D", "");
+	
+		if(cleanPhoneNumber.length() >11) {
+			throw new IllegalArgumentException("Invalid Number");
+		}
+		
+		return cleanPhoneNumber;
 	}
 
 	/**
